@@ -6,15 +6,15 @@
   
   <title>leetcode做题笔记32 | 每天进步一点点</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="​​给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。 思路一：利用栈的特性解决先将左括号入栈，若后面栈顶为右括号则使前一个左括号出栈，最后输出最后一个右括号和栈底左括号之间的差值 #define MAX(a , b) ((a) &gt; (b) ? (a) : (b))int longestValidParentheses(char * s){    i">
+  <meta name="description" content="​​给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。目录 思路一：利用栈的特性解决 做题历程： 反省： 问题： 收获： 总结： 思路一：利用栈的特性解决先将左括号入栈，若后面栈顶为右括号则使前一个左括号出栈，最后输出最后一个右括号和栈底左括号之间的差值     #define MAX(a , b) ((a) &gt; (b) ? (a) : (b))">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode做题笔记32">
 <meta property="og:url" content="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/16/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B032/index.html">
 <meta property="og:site_name" content="每天进步一点点">
-<meta property="og:description" content="​​给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。 思路一：利用栈的特性解决先将左括号入栈，若后面栈顶为右括号则使前一个左括号出栈，最后输出最后一个右括号和栈底左括号之间的差值 #define MAX(a , b) ((a) &gt; (b) ? (a) : (b))int longestValidParentheses(char * s){    i">
+<meta property="og:description" content="​​给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。目录 思路一：利用栈的特性解决 做题历程： 反省： 问题： 收获： 总结： 思路一：利用栈的特性解决先将左括号入栈，若后面栈顶为右括号则使前一个左括号出栈，最后输出最后一个右括号和栈底左括号之间的差值     #define MAX(a , b) ((a) &gt; (b) ? (a) : (b))">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-16T14:02:26.000Z">
-<meta property="article:modified_time" content="2023-07-17T14:23:20.419Z">
+<meta property="article:modified_time" content="2023-07-17T15:47:15.613Z">
 <meta property="article:author" content="ccy">
 <meta name="twitter:card" content="summary">
   
@@ -97,9 +97,43 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>​​<br>给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。</p>
+        <p>​​<br>给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。<br>目录</p>
+<p>思路一：利用栈的特性解决</p>
+<p>做题历程：</p>
+<p>反省：</p>
+<p>问题：</p>
+<p>收获：</p>
+<p>总结：</p>
 <p>思路一：利用栈的特性解决<br>先将左括号入栈，若后面栈顶为右括号则使前一个左括号出栈，最后输出最后一个右括号和栈底左括号之间的差值</p>
-<p>#define MAX(a , b) ((a) &gt; (b) ? (a) : (b))<br>int longestValidParentheses(char * s){<br>    int len &#x3D; strlen(s);<br>    int max &#x3D; 0;<br>    int str[len+1];<br>    int top &#x3D; -1;<br>    str[++top] &#x3D; -1;<br>    for(int i &#x3D; 0; i &lt; len; i++)<br>    {<br>        if(s[i] &#x3D;&#x3D; ‘(‘)<br>        {<br>            str[++top] &#x3D; i;<br>        }<br>        if(s[i] &#x3D;&#x3D; ‘)’)<br>        {<br>            –top;<br>            if(top &#x3D;&#x3D; -1)<br>            {<br>                str[++top] &#x3D; i;<br>            }<br>            else<br>            {<br>                max &#x3D; MAX(max , (i - str[top]));<br>            }<br>        }<br>    }<br>    return max;<br>}</p>
+<pre><code>    #define MAX(a , b) ((a) &gt; (b) ? (a) : (b))
+    int longestValidParentheses(char * s)&#123;
+        int len = strlen(s);
+        int max = 0;
+        int str[len+1];
+        int top = -1;
+        str[++top] = -1;
+        for(int i = 0; i &lt; len; i++)
+        &#123;
+            if(s[i] == &#39;(&#39;)
+            &#123;
+                str[++top] = i;
+            &#125;
+            if(s[i] == &#39;)&#39;)
+            &#123;
+                --top;
+                if(top == -1)
+                &#123;
+                    str[++top] = i;
+                &#125;
+                else
+                &#123;
+                    max = MAX(max , (i - str[top]));
+                &#125;
+            &#125;
+        &#125;
+        return max;
+    &#125;
+</code></pre>
 <p>时间复杂度O(n)，空间复杂度O(n)</p>
 <p>思路二：动态规划<br>做题历程：<br>因为括号的特性，使用栈会比较容易解决此类问题，使用栈的时候需要用一个指针来记录栈顶，此处使用top变量，若该位置为左括号则判断前面一位是否为右括号，为右括号则top–，最后输出最长有效括号，实际编写的过程中i的取值要考虑清楚</p>
 <p>反省：<br>问题：<br>对于栈顶的判断还需考虑清楚</p>
@@ -110,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/16/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B032/" data-id="clk719wfm000docvehphsf5nx" data-title="leetcode做题笔记32" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/16/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B032/" data-id="clk71id3u000do4ve4qve9lvs" data-title="leetcode做题笔记32" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

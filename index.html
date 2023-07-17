@@ -108,28 +108,62 @@
 <p>收获：</p>
 <p>总结：</p>
 <p>思路一：循环（时间超限）<br>虽然减小了所要循环的数的规模，但时间复杂度还是没达到要求</p>
-<p>int search(int* nums, int numsSize, int target){<br>    if(target&gt;nums[0])<br>    {<br>        int i &#x3D; 1;<br>        while(nums[i]&lt;nums[i+1])<br>        {<br>            for(;i&lt;numsSize&#x2F;2;i++)<br>            {<br>                if(target&#x3D;&#x3D;nums[i])return i;<br>            }<br>             i +&#x3D; i&#x2F;2;<br>        }</p>
-<pre><code>    return -1;
-&#125;
-else if(target&lt;nums[0])
-&#123;
-    int i = numsSize-1;
-    while(nums[i]&gt;nums[i-1])
-    &#123;
-       for(;i&gt;numsSize/2;i--)
+<pre><code>    int search(int* nums, int numsSize, int target)&#123;
+        if(target&gt;nums[0])
         &#123;
-            if(target == nums[i])return i;
+            int i = 1;
+            while(nums[i]&lt;nums[i+1])
+            &#123;
+                for(;i&lt;numsSize/2;i++)
+                &#123;
+                    if(target==nums[i])return i;
+                &#125;
+                i += i/2;
+            &#125;
+            
+            return -1;
         &#125;
-        i -= i/2; 
+        else if(target&lt;nums[0])
+        &#123;
+            int i = numsSize-1;
+            while(nums[i]&gt;nums[i-1])
+            &#123;
+            for(;i&gt;numsSize/2;i--)
+                &#123;
+                    if(target == nums[i])return i;
+                &#125;
+                i -= i/2; 
+            &#125;
+            return -1;
+        &#125;
+        else return 0;
     &#125;
-    return -1;
-&#125;
-else return 0;
 </code></pre>
-<p>}</p>
 <p>时间复杂度O(n)，空间复杂度O(1)</p>
 <p>思路二：二分法<br>利用两个指针不断缩小范围，使时间复杂度达到O(logn)</p>
-<p>int search(int* nums, int numsSize, int target){<br>    int low &#x3D; 0, high &#x3D; numsSize - 1;<br>    while(low &lt;&#x3D; high){<br>        int mid&#x3D;(high - low) &#x2F; 2 + low;<br>        if(nums[mid] &#x3D;&#x3D; target){<br>            return mid;<br>        }<br>        if(nums[low] &lt;&#x3D; nums[mid]){<br>            if(target &gt;&#x3D; nums[low] &amp;&amp; target &lt;nums[mid])<br>                high &#x3D; mid - 1;<br>            else<br>                low &#x3D; mid + 1;<br>        }<br>        else{<br>            if(target &gt; nums[mid] &amp;&amp; target &lt;&#x3D; nums[high])<br>                low &#x3D; mid + 1;<br>            else<br>                high &#x3D; mid - 1;<br>        }<br>    }<br>    return -1;<br>}</p>
+<pre><code>    int search(int* nums, int numsSize, int target)&#123;
+        int low = 0, high = numsSize - 1;
+        while(low &lt;= high)&#123;
+            int mid=(high - low) / 2 + low; 
+            if(nums[mid] == target)&#123; 
+                return mid;
+            &#125;
+            if(nums[low] &lt;= nums[mid])&#123;    
+                if(target &gt;= nums[low] &amp;&amp; target &lt;nums[mid])
+                    high = mid - 1;
+                else                                 
+                    low = mid + 1;
+            &#125;
+            else&#123;                       
+                if(target &gt; nums[mid] &amp;&amp; target &lt;= nums[high])
+                    low = mid + 1;                   
+                else
+                    high = mid - 1;
+            &#125;
+        &#125;
+        return -1;
+    &#125;
+</code></pre>
 <p>时间复杂度O(logn)，空间复杂度O(1)</p>
 <p>做题历程：<br>一开始想到因为旋转了数组，可以通过判断目标数与第一个数的大小来决定是从前往后还是从后往前循环看是否相等，同时让比较的区域通过看该位置前一个与后一个比较来判断是否已到选择数的位置来决定返回-1，该方法虽然可行但是时间复杂度上还是有所欠缺，为O(n)，提交时时间超过限制，之后想到使用二分法，将数组两边用指针来不断缩小范围进行查找，将时间复杂度缩小到了O(logn)</p>
 <p>反省：<br>问题：<br>时间复杂度没有降低到O(logn)</p>
@@ -139,7 +173,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/17/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B033/" data-id="clk719wfm000eocve7d1f5zed" data-title="leetcode做题笔记33" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/17/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B033/" data-id="clk71id3v000fo4ve9mvi5dxf" data-title="leetcode做题笔记33" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -173,9 +207,43 @@ else return 0;
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>​​<br>给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。</p>
+        <p>​​<br>给你一个只包含 ‘(‘ 和 ‘)’ 的字符串，找出最长有效（格式正确且连续）括号子串的长度。<br>目录</p>
+<p>思路一：利用栈的特性解决</p>
+<p>做题历程：</p>
+<p>反省：</p>
+<p>问题：</p>
+<p>收获：</p>
+<p>总结：</p>
 <p>思路一：利用栈的特性解决<br>先将左括号入栈，若后面栈顶为右括号则使前一个左括号出栈，最后输出最后一个右括号和栈底左括号之间的差值</p>
-<p>#define MAX(a , b) ((a) &gt; (b) ? (a) : (b))<br>int longestValidParentheses(char * s){<br>    int len &#x3D; strlen(s);<br>    int max &#x3D; 0;<br>    int str[len+1];<br>    int top &#x3D; -1;<br>    str[++top] &#x3D; -1;<br>    for(int i &#x3D; 0; i &lt; len; i++)<br>    {<br>        if(s[i] &#x3D;&#x3D; ‘(‘)<br>        {<br>            str[++top] &#x3D; i;<br>        }<br>        if(s[i] &#x3D;&#x3D; ‘)’)<br>        {<br>            –top;<br>            if(top &#x3D;&#x3D; -1)<br>            {<br>                str[++top] &#x3D; i;<br>            }<br>            else<br>            {<br>                max &#x3D; MAX(max , (i - str[top]));<br>            }<br>        }<br>    }<br>    return max;<br>}</p>
+<pre><code>    #define MAX(a , b) ((a) &gt; (b) ? (a) : (b))
+    int longestValidParentheses(char * s)&#123;
+        int len = strlen(s);
+        int max = 0;
+        int str[len+1];
+        int top = -1;
+        str[++top] = -1;
+        for(int i = 0; i &lt; len; i++)
+        &#123;
+            if(s[i] == &#39;(&#39;)
+            &#123;
+                str[++top] = i;
+            &#125;
+            if(s[i] == &#39;)&#39;)
+            &#123;
+                --top;
+                if(top == -1)
+                &#123;
+                    str[++top] = i;
+                &#125;
+                else
+                &#123;
+                    max = MAX(max , (i - str[top]));
+                &#125;
+            &#125;
+        &#125;
+        return max;
+    &#125;
+</code></pre>
 <p>时间复杂度O(n)，空间复杂度O(n)</p>
 <p>思路二：动态规划<br>做题历程：<br>因为括号的特性，使用栈会比较容易解决此类问题，使用栈的时候需要用一个指针来记录栈顶，此处使用top变量，若该位置为左括号则判断前面一位是否为右括号，为右括号则top–，最后输出最长有效括号，实际编写的过程中i的取值要考虑清楚</p>
 <p>反省：<br>问题：<br>对于栈顶的判断还需考虑清楚</p>
@@ -186,7 +254,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/16/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B032/" data-id="clk719wfm000docvehphsf5nx" data-title="leetcode做题笔记32" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/16/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B032/" data-id="clk71id3u000do4ve4qve9lvs" data-title="leetcode做题笔记32" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -288,7 +356,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/15/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B031/" data-id="clk719wfl000cocve76e54vjt" data-title="leetcode做题笔记31" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/15/leetcode31-40/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B031/" data-id="clk71id3u000eo4vegazw69lz" data-title="leetcode做题笔记31" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -359,7 +427,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B030/" data-id="clk719wfk000bocveczyyd0os" data-title="leetcode做题笔记30" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B030/" data-id="clk71id3s000bo4ve6sfdf7bp" data-title="leetcode做题笔记30" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -441,7 +509,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B029/" data-id="clk719wfk000aocve3fixax5m" data-title="leetcode做题笔记29" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B029/" data-id="clk71id3t000co4ve4vdk311o" data-title="leetcode做题笔记29" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -508,7 +576,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B028/" data-id="clk719wfj0009ocve2gsnafl2" data-title="leetcode做题笔记28" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B028/" data-id="clk71id3r000ao4ve6k1m7g0h" data-title="leetcode做题笔记28" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -562,7 +630,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B027/" data-id="clk719wfi0008ocve5wdueuv2" data-title="leetcode做题笔记27" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B027/" data-id="clk71id3q0009o4vefm83gib7" data-title="leetcode做题笔记27" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -622,7 +690,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B026/" data-id="clk719wfh0007ocvebqzj8o8g" data-title="leetcode做题笔记26" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B026/" data-id="clk71id3o0008o4vec2gra5rs" data-title="leetcode做题笔记26" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -698,7 +766,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B025/" data-id="clk719wfh0006ocve3adq0gfv" data-title="leetcode做题笔记25" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/14/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B025/" data-id="clk71id3n0007o4vef2st036e" data-title="leetcode做题笔记25" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -786,7 +854,7 @@ else return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/13/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B024/" data-id="clk719wff0004ocve2zf13wvn" data-title="leetcode做题笔记24" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://github.com/c1mp1e/c1mp1e.github.io/2023/07/13/leetcode21-30/leetcode%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B024/" data-id="clk71id3m0006o4vebo02d4be" data-title="leetcode做题笔记24" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
